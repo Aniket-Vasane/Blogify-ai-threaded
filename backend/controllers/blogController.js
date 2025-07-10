@@ -110,5 +110,32 @@ const updateBlog = async(req,res)=>{
     }
 }
 
+const deleteBlog = async(req , res)=>{
+    const {id} = req.params;
+    try{
+        const deleted = await BlogPost.findByIdAndDelete(id);
+        if(!deleted)
+        {
+            res.status(404).json({
+                success : false,
+                message : "Blog not found "
 
-module.exports = {createBlog ,getAllBlogs ,getBlogById, updateBlog};
+            })
+        }
+        res.status(200).json({
+            success : true,
+            message : "Blog Deleted Successfully"
+
+        })
+    }
+    catch(err){
+        res.status(500).json({
+            success : false,
+            message : "Error while Deleting blog",
+            error : err.message
+        })
+    }
+};
+
+
+module.exports = {createBlog ,getAllBlogs ,getBlogById, updateBlog , deleteBlog};
